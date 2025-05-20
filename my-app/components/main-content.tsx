@@ -1,7 +1,7 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
-import { Search, Filter, FileText, ChevronDown, Settings2, Database, Clock, Type, Moon, Sun, Microscope, Activity } from "lucide-react"
+import React, { useState, useEffect, useCallback } from "react"
+import { Search, Filter, FileText, Settings2, Database, Type, Moon, Sun, Microscope, Activity } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -28,12 +28,26 @@ function ThemeToggle() {
   )
 }
 
+interface CompoundInfo {
+  title?: string;
+  text_block?: string;
+  evidence_description?: string;
+  disease_targeted?: string;
+  evidence_type?: string;
+  confidence_score?: string;
+}
+
+interface SearchResult {
+  compound_name: string;
+  compounds_info: CompoundInfo[];
+}
+
 export function MainContent() {
   const [searchQuery, setSearchQuery] = useState("")
   const [evidenceType, setEvidenceType] = useState("")
   const [disease, setDisease] = useState("")
   const [confidenceScore, setConfidenceScore] = useState("")
-  const [results, setResults] = useState<any[]>([])
+  const [results, setResults] = useState<SearchResult[]>([])
   const [loading, setLoading] = useState(false)
   const [activeFilters, setActiveFilters] = useState(0)
 
@@ -63,18 +77,18 @@ export function MainContent() {
     setActiveFilters(0)
   }
 
-  const updateActiveFilters = () => {
+  const updateActiveFilters = useCallback(() => {
     let count = 0
     if (evidenceType) count++
     if (disease) count++
     if (confidenceScore) count++
     setActiveFilters(count)
-  }
+  }, [evidenceType, disease, confidenceScore])
 
   // Update active filters count when filters change
   useEffect(() => {
     updateActiveFilters()
-  }, [evidenceType, disease, confidenceScore])
+  }, [evidenceType, disease, confidenceScore, updateActiveFilters])
 
   return (
     <main className="min-h-screen bg-background">
@@ -180,7 +194,7 @@ export function MainContent() {
                       <SelectValue placeholder="Select disease" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Alzheimer's disease">Alzheimer's Disease</SelectItem>
+                      <SelectItem value="Alzheimer&apos;s disease">Alzheimer&apos;s Disease</SelectItem>
                       <SelectItem value="Cancer">Cancer</SelectItem>
                       <SelectItem value="Diabetes">Diabetes</SelectItem>
                     </SelectContent>
@@ -245,7 +259,7 @@ export function MainContent() {
                       <Card key={index} className="p-4">
                         <h3 className="text-lg font-semibold">{result.compound_name || 'Unnamed Compound'}</h3>
                         {Array.isArray(result.compounds_info) ? (
-                          result.compounds_info.map((info: any, infoIndex: number) => (
+                          result.compounds_info.map((info: CompoundInfo, infoIndex: number) => (
                             <div key={infoIndex} className="mt-4 space-y-2">
                               <p className="text-sm font-medium">{info.title || 'No Title'}</p>
                               <p className="text-sm text-muted-foreground">{info.evidence_description || 'No Description'}</p>

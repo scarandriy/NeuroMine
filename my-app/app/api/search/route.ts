@@ -2,6 +2,15 @@ import { NextResponse } from 'next/server'
 import connectDB from '@/lib/mongodb'
 import { BiomedicalData } from '@/models/BiomedicalData'
 
+interface SearchQuery {
+  $or?: Array<{
+    [key: string]: RegExp;
+  }>;
+  'compounds_info.evidence_type'?: string;
+  'compounds_info.disease_targeted'?: string;
+  'compounds_info.confidence_score'?: string;
+}
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
@@ -13,7 +22,7 @@ export async function GET(request: Request) {
     await connectDB()
 
     // Build the search query
-    const searchQuery: any = {}
+    const searchQuery: SearchQuery = {}
 
     if (query) {
       // Create a regex pattern for case-insensitive partial matching
