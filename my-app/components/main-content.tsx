@@ -91,10 +91,10 @@ export function MainContent() {
   }, [evidenceType, disease, confidenceScore, updateActiveFilters])
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="w-full min-h-screen bg-background">
       {/* Header */}
-      <div className="border-b">
-        <div className="container flex h-16 items-center px-4">
+      <div className="border-b w-full">
+        <div className="container mx-auto flex h-16 items-center px-4">
           <div className="flex items-center gap-2">
             <Database className="h-6 w-6" />
             <span className="text-xl font-bold">NeuroMine</span>
@@ -117,7 +117,7 @@ export function MainContent() {
         </div>
       </div>
 
-      <div className="container py-8">
+      <div className="container mx-auto py-8 px-4">
         <div className="mx-auto max-w-5xl space-y-8">
           {/* Search Section */}
           <Card className="border-none bg-transparent shadow-none">
