@@ -27,7 +27,7 @@ NeuroMine is a modern web application for searching and exploring biomedical com
 
 ## Prerequisites
 
-- Node.js (v18 or higher)
+- Node.js 
 - MongoDB instance
 - npm or yarn
 
