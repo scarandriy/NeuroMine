@@ -4,7 +4,7 @@ NeuroMine is a modern web application for searching and exploring biomedical com
 
 ## Live Demo
 
-🌐 [https://neuro-mine.vercel.app/](https://neuro-mine.vercel.app/)
+🌐 [https://neuro-mine.vercel.app/](https://neuro-mine.vercel.app)
 
 ## Features
 
